@@ -1,0 +1,1 @@
+https://usaco.guide/silver/two-pointers?lang=cpp#resources
