@@ -1,0 +1,2 @@
+https://codeforces.com/problemset/problem/701/C
+wrong answer on test case 12
