@@ -1,0 +1,2 @@
+https://cses.fi/problemset/result/4628957/
+passed 3 test cases 9/14/2022
