@@ -1,1 +1,2 @@
-https://usaco.guide/silver/greedy-sorting?lang=cpp
+USACO.Guide: https://usaco.guide/silver/greedy-sorting?lang=cpp
+Minimizing sums: https://usaco.guide/CPH.pdf#page=71
