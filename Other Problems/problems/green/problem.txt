@@ -1,0 +1,3 @@
+http://www.usaco.org/index.php?page=viewproblem2&cpid=1112
+half-solved 9/29
+5/10 test cases
