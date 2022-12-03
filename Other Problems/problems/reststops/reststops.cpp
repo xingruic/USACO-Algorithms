@@ -3,11 +3,17 @@ using namespace std;
 int l, n, f, b;
 int x[100001], c[100001];
 int main() {
+    freopen("reststops.in", "r", stdin);
+    freopen("reststops.out", "w", stdout);
     cin >> l >> n >> f >> b;
     for (int i = 1; i <= n; i++) {
         cin >> x[i] >> c[i];
     }
+    int ans = 0;
+    int dist = 0;
     for (int i = 1; i <= n; i++) {
-        // for every rest stop, stop there and eat grass until farmer john catches up
+        ans += (x[i] - dist) * (f - b) * c[i];
+        dist = x[i];
     }
+    cout << ans << endl;
 }
