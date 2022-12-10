@@ -1,0 +1,1 @@
+https://usaco.guide/bronze/simulation?lang=cpp
