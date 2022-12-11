@@ -1,0 +1,3 @@
+http://www.usaco.org/index.php?page=viewproblem2&cpid=1180
+solved 12/10/2022
+note: use `long long` instead of `int` where it might be large number
