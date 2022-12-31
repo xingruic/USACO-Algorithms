@@ -2,58 +2,77 @@
 using namespace std;
 int n;
 int h[200001];
-pair<int, int> edges[200000];
+pair<int, int> Edges[200000];
 int avg = 0;
-int numEdges[200001];
-struct mov {
-    int start, end, x;
-    mov(int s, int e, int v) {
-        start = s, end = e, x = v;
-    }
+struct Node {
+    int idx;
+    int x;
+    vector<Node *> v;
 };
+typedef Node *node;
+node nodes[200001];
+bool good[200001] = {0};
+struct step {
+    int i, j, x;
+    step(int ii, int jj, int xx) : i(ii), j(jj), x(xx) {}
+};
+vector<step> steps;
+void solve(node x, node parent) {
+    if (good[x->idx]) {
+        return;
+    }
+    good[x->idx] = 1;
+    for (int i = 0; i < x->v.size(); i++) {
+        if (x->x == 0)
+            break;
+        if (x->v[i]->x < avg) {
+            int trans = min(avg - x->v[i]->x, x->x);
+            x->v[i]->x += trans;
+            x->x -= trans;
+            steps.push_back(step(x->idx, x->v[i]->idx, trans));
+        }
+        solve(x->v[i], x);
+    }
+    if (x->x > avg) {
+        cout << "yey" << endl;
+        parent->x += x->x - avg;
+        for (int i = 0; i < steps.size(); i++) {
+            if (steps[i].i == parent->idx && steps[i].j == x->idx) {
+                steps[i].x -= x->x - avg;
+            }
+        }
+    }
+}
 int main() {
     // memset(a, 0x3c, sizeof(a));
-    memset(numEdges, 0, sizeof(numEdges));
     cin >> n;
-    for (int i = 1; i <= n; i++) {
-        cin >> h[i];
-        avg += h[i];
+    for (int i = 0; i <= n; i++) {
+        nodes[i] = (node)malloc(sizeof(Node));
+    }
+    int root_idx;
+    {
+        int max_val = -1;
+        for (int i = 1; i <= n; i++) {
+            cin >> h[i];
+            // h[i] = 1;
+            if (h[i] > max_val) {
+                max_val = h[i];
+                root_idx = i;
+            }
+            avg += h[i];
+            nodes[i]->idx = i;
+            nodes[i]->x = h[i];
+        }
     }
     avg /= n;
     for (int i = 1; i < n; i++) {
-        cin >> edges[i].first >> edges[i].second;
-        numEdges[edges[i].first]++, numEdges[edges[i].second]++;
+        cin >> Edges[i].first >> Edges[i].second;
+        nodes[Edges[i].first]->v.push_back(nodes[Edges[i].second]);
+        nodes[Edges[i].second]->v.push_back(nodes[Edges[i].first]);
     }
-    int cnt = 0;
-    vector<mov> moves;
-    for (int i = 1; i < n; i++) {
-        cnt++;
-        if (numEdges[edges[i].first] == 1 && h[edges[i].first] < avg) {
-            h[edges[i].first] += min(edges[i].second, avg - edges[i].first);
-            h[edges[i].second] = max(h[edges[i].second] - avg, 0);
-            moves.push_back(mov(edges[i].second, edges[i].first, min(edges[i].second, avg - edges[i].first)));
-        } else if (numEdges[edges[i].second] == 1 && h[edges[i].second] < avg) {
-            h[edges[i].second] += min(edges[i].first, avg - edges[i].second);
-            h[edges[i].first] = max(h[edges[i].first] - avg, 0);
-            moves.push_back(mov(edges[i].first, edges[i].second, min(edges[i].first, avg - edges[i].second)));
-        } else
-            cnt--;
-    }
-    for (int i = 1; i < n; i++) {
-        cnt++;
-        if (h[edges[i].first] < avg) {
-            h[edges[i].first] += min(edges[i].second, avg - edges[i].first);
-            h[edges[i].second] = max(h[edges[i].second] - avg, 0);
-            moves.push_back(mov(edges[i].second, edges[i].first, min(edges[i].second, avg - edges[i].first)));
-        } else if (h[edges[i].second] < avg) {
-            h[edges[i].second] += min(edges[i].first, avg - edges[i].second);
-            h[edges[i].first] = max(h[edges[i].first] - avg, 0);
-            moves.push_back(mov(edges[i].first, edges[i].second, min(edges[i].first, avg - edges[i].second)));
-        } else
-            cnt--;
-    }
-    cout << cnt << endl;
-    for (mov i : moves) {
-        cout << i.start << ' ' << i.end << ' ' << i.x << endl;
+    solve(nodes[root_idx], nullptr);
+    cout << steps.size() << endl;
+    for (step i : steps) {
+        cout << i.i << ' ' << i.j << ' ' << i.x << endl;
     }
 }
