@@ -2,7 +2,6 @@
 using namespace std;
 int n;
 int h[200001];
-pair<int, int> Edges[200000];
 int avg = 0;
 struct Node {
     int idx;
@@ -46,7 +45,6 @@ void solve(node x, node parent) {
     }
 }
 int main() {
-    // memset(a, 0x3c, sizeof(a));
     cin >> n;
     for (int i = 0; i <= n; i++) {
         nodes[i] = (node)malloc(sizeof(Node));
