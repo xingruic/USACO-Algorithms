@@ -18,6 +18,7 @@ struct step {
 };
 vector<step> steps;
 void solve(node x, node parent) {
+    // cout << x->idx << endl;
     if (good[x->idx]) {
         return;
     }
@@ -33,14 +34,15 @@ void solve(node x, node parent) {
         }
         solve(x->v[i], x);
     }
-    if (x->x > avg) {
-        cout << "yey" << endl;
-        parent->x += x->x - avg;
+    if (x->x > avg && parent) {
+
         for (int i = 0; i < steps.size(); i++) {
+            // cout << i << ' ';
             if (steps[i].i == parent->idx && steps[i].j == x->idx) {
                 steps[i].x -= x->x - avg;
             }
         }
+        cout << endl;
     }
 }
 int main() {
@@ -70,7 +72,11 @@ int main() {
         nodes[Edges[i].first]->v.push_back(nodes[Edges[i].second]);
         nodes[Edges[i].second]->v.push_back(nodes[Edges[i].first]);
     }
+    // cout << "what" << endl;
     solve(nodes[root_idx], nullptr);
+    for (int i = 1; i <= n; i++) {
+        cout << nodes[i]->idx << ' ' << nodes[i]->x << endl;
+    }
     cout << steps.size() << endl;
     for (step i : steps) {
         cout << i.i << ' ' << i.j << ' ' << i.x << endl;
