@@ -12,6 +12,6 @@ int main() {
     for (int i = 1; i <= n; i++) {
         cin >> w[i] >> t[i];
     }
-
+    
     return 0;
 }
