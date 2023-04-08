@@ -8,10 +8,10 @@
             ],
             "defines": [],
             "macFrameworkPath": [],
-            "compilerPath": "/usr/local/Cellar/gcc/12.2.0/bin/g++-12",
+            "compilerPath": "C:\\MinGW\\bin\\g++.exe",
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
-            "intelliSenseMode": "macos-gcc-x64"
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4
