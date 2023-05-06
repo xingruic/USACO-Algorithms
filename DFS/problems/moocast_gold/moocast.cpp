@@ -4,9 +4,6 @@ int n;
 int x[1001], y[1001];
 int a[1001][1001];
 bool visited[1001];
-bool cmp(pair<int, int> a, pair<int, int> b) {
-    return a.second < b.second;
-}
 int main() {
     freopen("moocast.in", "r", stdin);
     freopen("moocast.out", "w", stdout);
@@ -21,25 +18,24 @@ int main() {
         }
     }
     int cnt = n;
-    visited[1] = true;
-    vector<pair<int, int>> v;
-    for (int i = 2; i <= n; i++) {
-        if (!visited[i]) {
-            v.push_back(make_pair(i, a[1][i]));
-        }
-    }
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, 1});
     int ans = 0;
-    while (cnt > 0) {
-        sort(v.begin(), v.end(), cmp);
-        visited[v[0].first] = true;
-        ans = max(ans, v[0].second);
+    while (!pq.empty()) {
+        pair<int, int> p = pq.top();
+        pq.pop();
+        if (visited[p.second])
+            continue;
+        visited[p.second] = true;
+        ans = max(ans, p.first);
         cnt--;
+        if (cnt == 0)
+            break;
         for (int i = 1; i <= n; i++) {
             if (!visited[i]) {
-                v.push_back(make_pair(i, a[v[0].first][i]));
+                pq.push({a[p.second][i], i});
             }
         }
-        v.erase(v.begin());
     }
     cout << ans << endl;
 }
