@@ -87,6 +87,6 @@ int main() {
     // for (sensor s : sensors) {
     //     cout << s.l << ' ' << s.r << ' ' << s.type << endl;
     // }
-    cout << sensors.begin()->l << ' ' << sensors.begin()->r << '\n'
-         << sensors[n - 1].l << ' ' << sensors[n - 1].r << endl;
+    cout << max(0, sensors.begin()->l) << ' ' << sensors.begin()->r << '\n'
+         << max(0, sensors[n - 1].l) << ' ' << sensors[n - 1].r << endl;
 }
