@@ -1,48 +1,34 @@
 #include <bits/stdc++.h>
 using namespace std;
-string s, t;
-int _hash(string s) {
-    int sum = 0;
-    for (int i = 0; i < s.size(); i++)
-        sum += i * s[i];
-    return sum % 1000000007;
-}
-vector<int> rk(string large, string find) {
-    // cout << large << ' ' << find << endl;
-    int hashf = _hash(find);
-    int n = large.size() - find.size() + 1;
-    int hashl[n];
-    string t[n];
-    memset(hashl, 0, sizeof(hashl) / sizeof(int));
-    for (int i = 0; i < n; i++) {
-        t[i] = "";
-        for (int j = i; j < i + find.size(); j++) {
-            t[i] += large[j];
-        }
-        hashl[i] = _hash(t[i]);
-    }
-    vector<int> locations;
-    for (int i = 0; i < n; i++) {
-        // cout << hashf << ' ' << hashl[i] << endl;
-        if (hashl[i] == hashf) {
-            if (t[i] == find) {
-                locations.push_back(i);
-            }
-        }
-    }
-    return locations;
-}
+queue<int> q;
+string pat, tmp;
+int n;
 int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     freopen("censor.in", "r", stdin);
     freopen("censor.out", "w", stdout);
-    cin >> s >> t;
-    vector<int> locs = {0};
-    while (locs.size() > 0) {
-        locs = rk(s, t);
-        for (int &i : locs) {
-            // cout << i << endl;
-            s.erase(i, t.size());
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin >> pat;
+    cin.clear();
+    cin.seekg(0);
+    n = pat.size();
+    int i, c;
+    cin >> setw(n) >> tmp;
+    for (int cnt = n;; cnt++) {
+        for (i = 0; i < n; i++) {
+            if (tmp[i] != pat[i]) {
+                break;
+            }
+        }
+        if (i < n) {
+            c = getc(stdin);
+            if (c == '\n')
+                break;
+            tmp = tmp.substr(1) + (char)c;
+        } else {
+            cout << cnt << ' ' << tmp << endl;
+            break;
         }
     }
-    cout << s << endl;
 }
