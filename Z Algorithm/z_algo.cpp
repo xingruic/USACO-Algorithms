@@ -16,8 +16,8 @@ void z_algo(const string &s) {
             while (R < n && s[R - L] == s[R]) { // while R isn't out of range && [L,R] makes a prefix
                 R++;
             }
+            z[i] = R - L; // z[i]=length([L,R])
             R--; // undo the extra iteration
-            z[i] = R - L + 1; // z[i]=length([L,R])
         } else {
             // TODO: Understand this part
             int k = i - L;
