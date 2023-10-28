@@ -1,14 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
-int x, n;
+int xx, n;
 int p[200001];
 map<int, int> pass; // key is where the passage starts, value is the length of the passage
 int main() {
-    cin >> x >> n;
+    cin >> xx >> n;
     for (int i = 1; i <= n; i++) {
         cin >> p[i];
     }
-    pass[1] = x;
+    pass[1] = xx;
     for (int i = 1; i <= n; i++) {
         // for (auto i : pass) {
         //     cerr << i.first << ' ' << i.second << endl;

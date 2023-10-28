@@ -1,51 +1,54 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<cstring>
+#include<vector>
+#include<algorithm>
 using namespace std;
-struct state {
-    int cur, dist, numcon, cost;
-    state(int cur, int dist = 0, int numcon = 0, int cost = 0) : cur(cur), dist(dist), numcon(numcon), cost(cost) {}
-};
-int n, m;
-bool path[10001][10001];
-int dist[10001];
-int main() {
-    freopen("conbarn.in", "r", stdin);
-    freopen("conbarn.out", "w", stdout);
-    int T;
-    cin >> T;
-    while (T--) {
-        memset(path, 0, sizeof(path));
-        memset(dist, 0x7f, sizeof(dist));
-        cin >> n >> m;
-        {
-            int a, b;
-            for (int i = 0; i < m; i++) {
-                cin >> a >> b;
-                path[a][b] = path[b][a] = 1;
-            }
+int T;
+int n,m;
+vector<int> adj[100001];
+int group[100001];
+vector<int> groups[100001];
+void dfs(int x,int gid){
+    group[x]=gid;
+    for(int &i:adj[x]){
+        if(!group[i]){
+            dfs(i,gid);
         }
-        queue<state> q;
-        q.push(state(1));
-        state t(0);
-        int ans = 0x7fffffff;
-        while (!q.empty()) {
-            t = q.front();
-            q.pop();
-            dist[t.cur] = t.dist;
-            if (t.cur == n) {
-                cout << t.cost << ' ' << t.numcon << endl;
-                ans = min(ans, t.cost);
-                continue;
-            }
-            for (int i = 1; i <= n; i++) {
-                if (path[t.cur][i]) {
-                    if (dist[i] <= t.dist)
-                        continue;
-                    q.push(state(i, t.dist + 1, t.numcon, t.cost));
-                } else if (t.numcon < 2) {
-                    q.push(state(i, t.dist + 1, t.numcon + 1, t.cost + (t.cur - i) * (t.cur - i)));
-                }
-            }
+    }
+}
+int mindist(int ga,int gb){
+    int mind=0x7fffffff;
+    for(int x:groups[ga]){
+        int i=distance(lower_bound(groups[gb].begin(),groups[gb].end(),x),groups[gb].begin());
+        
+    }
+}
+int main(){
+    freopen("conbarn.in","r",stdin);
+    freopen("conbarn.out","w",stdout);
+    cin>>T;
+    while(T--){
+        cin>>n>>m;
+        for(int i=1; i<=n; i++) adj[i].clear(),groups[i].clear();
+        int x,y;
+        for(int i=1; i<=m; i++){
+            cin>>x>>y;
+            adj[x].push_back(y);
+            adj[y].push_back(x);
         }
-        cout << ans << endl;
+        memset(group,0,sizeof(group));
+        int cnt=0;
+        for(int i=1; i<=n; i++){
+            if(!group[i]){
+                cnt++;
+                dfs(i,cnt);
+            }
+        } // now cnt = the number of groups
+        for(int i=1; i<=n; i++){
+            groups[group[i]].push_back(i);
+        }
+        for(int i=1; i<=n; i++) cout<<(int)group[i]<<' ';
+        cout<<endl;
+        
     }
 }
